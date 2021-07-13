@@ -32,7 +32,7 @@
             <a class="waves-effect waves-light btn-large searchHistory">Button</a>
         </aside>
         <div class="col" id="content">
-            <form>
+            <form id="mainform">
                 <div class="row flex">
                     <div class="col s12 noMargin">
                         <div class="input-field inline">
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="input-field col s12 noMargin">
-                        <select>
+                        <select id="distance">
                             <option value="" disabled selected>Distance</option>
                             <option value="1">50 Miles</option>
                             <option value="2">100 Miles</option>
@@ -50,7 +50,7 @@
                         </select>
                     </div>
 
-                    <button class="btn waves-effect waves-light flex submitBtn noMargin" type="submit" name="action">Submit
+                    <button class="btn waves-effect waves-light flex submitBtn noMargin" type="submit" name="action" id="submitbtn">Submit
                         <i class="material-icons right">send</i>
                     </button>
                 </div>

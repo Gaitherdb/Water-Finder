@@ -20,10 +20,6 @@ function searchApi5DayForecast(currentData) {
       })
 }
 
-
-
-
-
 //Event listener for distance select
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('select');
@@ -33,14 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 var dontStealThis;
 //input selecter variables
-var locationInput = document.getElementById("location");
-var distanceInput = document.getElementById("distance");
+
 var submitBtn = document.getElementById("submitbtn");
 var mainForm = document.getElementById("mainform");
 
 
 var searchFunction = function(event){
   event.preventDefault();
+  var locationInput = document.getElementById("location");
+var distanceInput = document.getElementById("distance");
   let locationInput = locationInput.value;
   let distanceInput = distanceInput.value;
   saveSearches(locationInput);
@@ -49,13 +46,21 @@ var searchFunction = function(event){
   let apiAddress = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + locationInput + "radius=" + distanceInput + "&type=campground&keyword=cruise&key=" + dontStealThis;
   fetch(apiAddress)
       .then(function (response) {
-      return response.json();
-      })
-      .then(function (data) {
-      console.log(data)
+        if (response.ok) {
+          response.json().then(function (data) {
+              console.log(data);
+          })
+      } else {
+          alert('Error: ' + response.statusText)
+      }
   })
-};
+  .catch(function (error) {
+      alert('Unable to connect to OpenWeatherMap.com');
+  })
+}
 
+        
+     
 mainForm.addEventListener("submit", searchFunction);
 
 

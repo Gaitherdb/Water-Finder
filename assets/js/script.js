@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var instances = M.FormSelect.init(elems, options);
 });
 
-var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4"
+var dontStealThis = 
 //input selecter variables
 var locationInput = document.getElementById("location");
 var distanceInput = document.getElementById("distance");

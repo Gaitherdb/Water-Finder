@@ -32,18 +32,14 @@ var searchFunction = function (event) {
         response.json().then(function (data) {
           console.log(data);
         })
-      } else {
-        alert('Error: ' + response.statusText)
       }
     })
-    .catch(function (error) {
-      alert('Unable to connect to Google.com');
-    })
 }
-//Calls function to test the function. 
+//Calls function to test the function. Will end up using zip codes from google api
 searchCurrentDayWeather();
 //uses zipcode from google maps to get lan and lon for 5dayweather api
 function searchCurrentDayWeather() {
+  //test zipcode
   var zipCode = 22601;
 
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + zipCode + ",US&units=imperial&appid=" + APIKey;
@@ -56,13 +52,9 @@ function searchCurrentDayWeather() {
           zipCodeTown(data.name);
           searchFiveDayWeather(data);
         })
-      } else {
-        alert('Error: ' + response.statusText)
       }
     })
-    .catch(function (error) {
-      alert('Unable to connect to OpenWeatherMap.com');
-    })
+
 }
 //fetches 7 day weather 
 function searchFiveDayWeather(data) {
@@ -75,12 +67,7 @@ function searchFiveDayWeather(data) {
           console.log(data);
           renderWeather(data);
         })
-      } else {
-        alert('Error: ' + response.statusText)
       }
-    })
-    .catch(function (error) {
-      alert('Unable to connect to OpenWeatherMap.com');
     })
 }
 function renderWeather(data) {
@@ -135,8 +122,8 @@ function renderWeather(data) {
   }
 }
 function getIcons(icon) {
-  var iconurl = "https://openweathermap.org/img/w/" + icon + ".png";
-  return iconurl;
+  var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
+  return iconUrl;
 }
 //creates element and appends town name of zipcode
 function zipCodeTown(name) {

@@ -1,4 +1,4 @@
-//
+
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
 var DateTime = luxon.DateTime;
 
@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var options = "";
   var instances = M.FormSelect.init(elems, options);
 });
-
-;
 
 // Search Function 
 var dontStealThis;
@@ -42,13 +40,12 @@ var searchFunction = function (event) {
   fetch(apiAddress)
     .then(function (response) {
       if (response.ok) {
-
         response.json()
-      .then(function (data) {
-        
-          console.log(data);
-        });
-      } 
+          .then(function (data) {
+
+            console.log(data);
+          });
+      }
     })
 };
 
@@ -61,29 +58,18 @@ function searchCurrentDayWeather() {
 
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + zipCode + ",US&units=imperial&appid=" + APIKey;
 
-
   fetch(queryURL)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
           console.log(data);
-
-        });
-      } else {
-        alert("Error: " + response.statusText);
-      }
-    })
-    .catch(function (error) {
-      alert("Unable to connect to OpenWeatherMap.com");
-    });
-
           zipCodeTown(data.name);
           searchFiveDayWeather(data);
-        })
+        });
       }
     })
-
 }
+
 //fetches 7 day weather 
 function searchFiveDayWeather(data) {
   var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&units=imperial&appid=" + APIKey;

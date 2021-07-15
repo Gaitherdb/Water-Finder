@@ -59,28 +59,6 @@ var searchFunction = function (event) {
     })
 }
 
-
-//Calls function to test the function. Will end up using zip codes from google api
-// searchCurrentDayWeather();
-//uses zipcode from google maps to get lan and lon for 5dayweather api
-// function searchCurrentDayWeather() {
-//   //test zipcode
-//   // var zipCode = 22601;
-
-//   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + zipCode + ",US&units=imperial&appid=" + APIKey;
-//   fetch(queryURL)
-//     .then(function (response) {
-//       if (response.ok) {
-//         response.json().then(function (data) {
-//           console.log(data);
-//           var lonLat = data.coord.lat + "," + data.coord.lon;
-
-
-//         });
-//       }
-//     })
-// }
-
 //fetches 7 day weather 
 function searchFiveDayWeather(data) {
   var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&units=imperial&appid=" + APIKey;

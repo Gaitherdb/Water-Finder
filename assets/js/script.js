@@ -1,6 +1,10 @@
 
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
 var DateTime = luxon.DateTime;
+var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
+var lonLat = "";
+var lon = "";
+var lat = "";
 
 //Event listener for distance select
 
@@ -12,14 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Search Function 
-var dontStealThis;
-// = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
 
 //input selector variables
 var submitBtn = document.getElementById("submitbtn");
 var mainForm = document.getElementById("mainform");
-
-
 
 var searchFunction = function (event) {
   event.preventDefault();
@@ -30,13 +30,29 @@ var searchFunction = function (event) {
   // saveSearches(locationInput);
   console.log(locationInput);
   console.log(distanceInput);
+
+  var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + locationInput + ",US&units=imperial&appid=" + APIKey;
+
+  fetch(queryURL)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          lonLat = data.coord.lat + "," + data.coord.lon;
+          
+
+        });
+      }
+    })
+
+
   let apiAddress =
     "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
-    locationInput +
+    lonLat +
     "radius=" +
     distanceInput +
     "&type=campground&keyword=cruise&key=" +
     dontStealThis;
+    console.log(lonLat);
   fetch(apiAddress)
     .then(function (response) {
       if (response.ok) {
@@ -47,28 +63,28 @@ var searchFunction = function (event) {
           });
       }
     })
-};
+}
 
 //Calls function to test the function. Will end up using zip codes from google api
-searchCurrentDayWeather();
+// searchCurrentDayWeather();
 //uses zipcode from google maps to get lan and lon for 5dayweather api
-function searchCurrentDayWeather() {
-  //test zipcode
-  var zipCode = 22601;
+// function searchCurrentDayWeather() {
+//   //test zipcode
+//   // var zipCode = 22601;
+  
+//   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + zipCode + ",US&units=imperial&appid=" + APIKey;
+//   fetch(queryURL)
+//     .then(function (response) {
+//       if (response.ok) {
+//         response.json().then(function (data) {
+//           console.log(data);
+//           var lonLat = data.coord.lat + "," + data.coord.lon;
 
-  var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + zipCode + ",US&units=imperial&appid=" + APIKey;
 
-  fetch(queryURL)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          console.log(data);
-          zipCodeTown(data.name);
-          searchFiveDayWeather(data);
-        });
-      }
-    })
-}
+//         });
+//       }
+//     })
+// }
 
 //fetches 7 day weather 
 function searchFiveDayWeather(data) {
@@ -83,7 +99,6 @@ function searchFiveDayWeather(data) {
         })
       }
     })
-
 }
 function renderWeather(data) {
   //gets date from zipcode and displays it nice

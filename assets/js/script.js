@@ -19,7 +19,6 @@ function getLonLat(event) {
   var locationInput = locationInput.value;
   var distanceInput = document.getElementById("distance");
   var distanceInput = distanceInput.value;
-
   // saveSearches(locationInput);
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + locationInput + ",US&units=imperial&appid=" + APIKey;
 
@@ -28,7 +27,6 @@ function getLonLat(event) {
       response.json().then(function (data) {
         console.log(data);
         lonLat = data.coord.lat + "," + data.coord.lon;
-        console.log(lonLat);
         searchFunction(lonLat);
 
       });

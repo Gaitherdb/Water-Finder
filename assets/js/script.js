@@ -12,8 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Search Function 
-var dontStealThis;
-// = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
+var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
 
 //input selector variables
 var submitBtn = document.getElementById("submitbtn");

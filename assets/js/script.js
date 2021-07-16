@@ -12,13 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
   var options = "";
   var instances = M.FormSelect.init(elems, options);
 });
-
+//gets coordinates of inital zipcode
 function getLonLat(event) {
   event.preventDefault();
   var locationInput = document.getElementById("location");
   var locationInput = locationInput.value;
-  var distanceInput = document.getElementById("distance");
-  var distanceInput = distanceInput.value;
   // saveSearches(locationInput);
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + locationInput + ",US&units=imperial&appid=" + APIKey;
 
@@ -31,14 +29,14 @@ function getLonLat(event) {
 
       });
     })
-
 }
-
-var searchFunction = function (event) {
-  
+//searches campgrounds within distance radius of zipcode
+var searchFunction = function (lonLat) {
   var distanceInput = document.getElementById("distance");
   var distanceInput = distanceInput.value;
-  console.log(lonLat);
+  if (distanceInput = " " ) {
+    // make an alert with a widget saying must include distance
+  }
   let apiAddress =
     "https://cors-anywhere.herokuapp.com/" + "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
     lonLat +
@@ -49,30 +47,45 @@ var searchFunction = function (event) {
   console.log(lonLat);
   fetch(apiAddress)
     .then(function (response) {
-      if (response.ok) {
-        response.json()
-          .then(function (data) {
-
-            console.log(data);
-          });
-      }
+      response.json()
+        .then(function (data) {
+          campgroundResults(data);
+        })
     })
+}
+
+function campgroundResults(data) {
+console.log(data);
+var campgrounds = data.results;
+for (i=0; i<campgrounds.length; i++) {
+  var coord = campgrounds[i].geometry.location;
+  var name = campgrounds[i].name;
+  var address = campgrounds[i].vicinity;
+  if (campgrounds[i].opening_hours.open_now = true)
+  {
+    //textContent = OPEN
+  }
+  else {
+    //textContent = CLOSED
+  }
+searchFiveDayWeather(coord);
+}
 }
 
 //fetches 7 day weather 
-function searchFiveDayWeather(data) {
-  var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&units=imperial&appid=" + APIKey;
-
+function searchFiveDayWeather(coord) {
+  var lat = coord.lat;
+  var lon = coord.lng;
+  var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + APIKey;
+  
   fetch(queryURL)
     .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          console.log(data);
-          renderWeather(data);
-        })
-      }
+      response.json().then(function (data) {
+        renderWeather(data);
+      })
     })
 }
+
 function renderWeather(data) {
   //gets date from zipcode and displays it nice
   var local = DateTime.local();

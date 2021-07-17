@@ -7,6 +7,11 @@ var DateTime = luxon.DateTime;
 var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
 var q;
 
+
+
+
+
+
 //Event listener for distance select
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('select');
@@ -18,6 +23,14 @@ function getLonLat(event) {
   event.preventDefault();
   q = 0;
   results.textContent = " ";
+  var zipCode = document.querySelector(".validate");
+  var distanceBtn = document.querySelector("#distance");
+  var opt = distanceBtn.options[distanceBtn.selectedIndex];
+  console.log(zipCode.value);
+  if (opt.value === "" || zipCode.value === "") {
+    modal.style.display = "block";
+    return
+  }
   var locationInput = document.getElementById("location");
   var locationInput = locationInput.value;
   // saveSearches(locationInput);
@@ -29,7 +42,6 @@ function getLonLat(event) {
         console.log(data);
         lonLat = data.coord.lat + "," + data.coord.lon;
         searchFunction(lonLat);
-
       });
     })
 }
@@ -80,14 +92,13 @@ function campgroundResults(data) {
     results.appendChild(div);
     div.appendChild(h4);
     div.appendChild(h4Div);
-  }
-  for (i = 0; i < campgrounds.length; i++) {
     var campgroundDiv = document.querySelectorAll(".campground");
     var forecast = document.createElement("div");
     forecast.classList.add("forecast");
     campgroundDiv[i].appendChild(forecast);
     searchFiveDayWeather(coord);
   }
+
 }
 
 //fetches 7 day weather 
@@ -159,10 +170,20 @@ function getIcons(icon) {
   var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
   return iconUrl;
 }
-//creates element and appends town name of zipcode
-function zipCodeTown(name) {
-  console.log(name);
+function modalAlert(event) {
+  event.preventDefault();
 }
-
-
+var modal = document.getElementById("myModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 mainForm.addEventListener("submit", getLonLat);

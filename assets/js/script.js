@@ -7,11 +7,6 @@ var DateTime = luxon.DateTime;
 var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
 var q;
 
-
-
-
-
-
 //Event listener for distance select
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('select');
@@ -26,7 +21,6 @@ function getLonLat(event) {
   var zipCode = document.querySelector(".validate");
   var distanceBtn = document.querySelector("#distance");
   var opt = distanceBtn.options[distanceBtn.selectedIndex];
-  console.log(zipCode.value);
   if (opt.value === "" || zipCode.value === "") {
     modal.style.display = "block";
     return
@@ -44,6 +38,21 @@ function getLonLat(event) {
         searchFunction(lonLat);
       });
     })
+}
+//global variables and clicks for the modal alert
+
+var modal = document.getElementById("myModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
 //searches campgrounds within distance radius of zipcode
 var searchFunction = function (lonLat) {
@@ -170,20 +179,5 @@ function getIcons(icon) {
   var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
   return iconUrl;
 }
-function modalAlert(event) {
-  event.preventDefault();
-}
-var modal = document.getElementById("myModal");
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  modal.style.display = "none";
-}
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+
 mainForm.addEventListener("submit", getLonLat);

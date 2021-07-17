@@ -33,3 +33,14 @@ h3 {
     font-size: 25px;
     text-align: center;
 }
+.inline {
+    display: inline;
+}
+.forecast{
+    display:flex;
+    justify-content: space-between;
+}
+.dailyDiv{
+    background-color: aqua;
+    padding:4px;
+}

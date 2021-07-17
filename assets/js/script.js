@@ -1,14 +1,11 @@
 var submitBtn = document.getElementById("submitbtn");
 var mainForm = document.getElementById("mainform");
 var results = document.querySelector(".results");
-var campgroundName = document.querySelectorAll(".campgroundName");
-var campgroundAddy = document.querySelectorAll(".campgroundAddy");
 
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
 var DateTime = luxon.DateTime;
 var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
 var q;
-
 
 //Event listener for distance select
 document.addEventListener('DOMContentLoaded', function () {
@@ -156,8 +153,6 @@ function renderWeather(data) {
   }
   //q = counter for how many forecast classes are made aka how many campgrounds found (5 or less)
   q++;
-  
-  
 }
 
 function getIcons(icon) {

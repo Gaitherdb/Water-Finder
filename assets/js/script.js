@@ -1,20 +1,26 @@
 var submitBtn = document.getElementById("submitbtn");
 var mainForm = document.getElementById("mainform");
+var results = document.querySelector(".results");
+var campgroundName = document.querySelectorAll(".campgroundName");
+var campgroundAddy = document.querySelectorAll(".campgroundAddy");
+
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
 var DateTime = luxon.DateTime;
 var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
-var lonLat;
+var q;
+
 
 //Event listener for distance select
 document.addEventListener('DOMContentLoaded', function () {
   var elems = document.querySelectorAll('select');
-
   var options = "";
   var instances = M.FormSelect.init(elems, options);
 });
 //gets coordinates of inital zipcode
 function getLonLat(event) {
   event.preventDefault();
+  q = 0;
+  results.textContent = " ";
   var locationInput = document.getElementById("location");
   var locationInput = locationInput.value;
   // saveSearches(locationInput);
@@ -34,9 +40,7 @@ function getLonLat(event) {
 var searchFunction = function (lonLat) {
   var distanceInput = document.getElementById("distance");
   var distanceInput = distanceInput.value;
-  if (distanceInput = " " ) {
-    // make an alert with a widget saying must include distance
-  }
+
   let apiAddress =
     "https://cors-anywhere.herokuapp.com/" + "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
     lonLat +
@@ -44,32 +48,49 @@ var searchFunction = function (lonLat) {
     distanceInput +
     "&type=campground&keyword=cruise&key=" +
     dontStealThis;
-  console.log(lonLat);
+
   fetch(apiAddress)
     .then(function (response) {
       response.json()
         .then(function (data) {
+          console.log(data);
           campgroundResults(data);
         })
     })
 }
 
 function campgroundResults(data) {
-console.log(data);
-var campgrounds = data.results;
-for (i=0; i<campgrounds.length; i++) {
-  var coord = campgrounds[i].geometry.location;
-  var name = campgrounds[i].name;
-  var address = campgrounds[i].vicinity;
-  if (campgrounds[i].opening_hours.open_now = true)
-  {
-    //textContent = OPEN
+  console.log(data);
+
+  //gets up to 5 results of campgrounds
+  var campgrounds = data.results.slice(0, 5);
+
+  for (i = 0; i < campgrounds.length; i++) {
+    var div = document.createElement("div");
+    div.classList.add("campground");
+    var h4 = document.createElement("h4");
+    h4.classList.add("inline");
+    var h4Div = document.createElement("div");
+    h4Div.classList.add("inline");
+
+    var coord = campgrounds[i].geometry.location;
+    var name = campgrounds[i].name;
+    var address = campgrounds[i].vicinity;
+
+    h4.textContent = name;
+    h4Div.textContent = address;
+
+    results.appendChild(div);
+    div.appendChild(h4);
+    div.appendChild(h4Div);
   }
-  else {
-    //textContent = CLOSED
+  for (i = 0; i < campgrounds.length; i++) {
+    var campgroundDiv = document.querySelectorAll(".campground");
+    var forecast = document.createElement("div");
+    forecast.classList.add("forecast");
+    campgroundDiv[i].appendChild(forecast);
+    searchFiveDayWeather(coord);
   }
-searchFiveDayWeather(coord);
-}
 }
 
 //fetches 7 day weather 
@@ -77,7 +98,7 @@ function searchFiveDayWeather(coord) {
   var lat = coord.lat;
   var lon = coord.lng;
   var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + APIKey;
-  
+
   fetch(queryURL)
     .then(function (response) {
       response.json().then(function (data) {
@@ -88,57 +109,57 @@ function searchFiveDayWeather(coord) {
 
 function renderWeather(data) {
   //gets date from zipcode and displays it nice
+  console.log(data);
   var local = DateTime.local();
   var rezoned = local.setZone(data.timezone);
-  var format = rezoned.toFormat("'('M'/'d'/'y')'");
-  // dateHeader.textContent = format;
-  //have to create element and append current date
-
-
-
-  //parses and appends weather for current day + 6 future days
-  for (i = 0; i < data.daily.length; i++) {
-
-    //Creates divs for each daily weather if we want them
-    // var div = document.createElement("div");
-    //     div.classList.add("dailyDiv");
-    //     fiveDayForecast.appendChild(div);
-    //     var dailyDiv = document.querySelectorAll(".dailyDiv");
-
-    //calculates date for zipcode and displays nicely for each future date
-    var addDay = rezoned.plus({ days: i + 1 })
-    var newDate = addDay.toFormat("cccc','LLL','d','y");
+  //forecast div contains current day + 5 day forecast for each campground
+  var dailyForecast = document.querySelectorAll(".forecast");
+  //parses and appends weather for current day + 5 future days
+  for (i = 0; i < 6; i++) {
+    var div = document.createElement("div");
+    div.classList.add("dailyDiv");
+    dailyForecast[q].appendChild(div);
+    //calculates date from zipcode and displays nicely for each future date
+    var addDay = rezoned.plus({ days: (i - 1) + 1 })
+    var newDate = addDay.toFormat("ccc LLL d");
     //parses out weather data
     var dailyWeatherDesc = data.daily[i].weather[0].description;
     var icon = getIcons(data.daily[i].weather[0].icon);
     var temp = data.daily[i].temp.max.toFixed(2);
     var wind = data.daily[i].wind_speed.toFixed(2);
     var humidity = data.daily[i].humidity;
-    console.log(dailyWeatherDesc);
-    var futureDate = document.createElement("h1");
-    futureDate.classList.add('dailyDate');
-    futureDate.textContent = newDate;
+
+    var date = document.createElement("h5");
+    date.classList.add('dailyDate');
+    date.textContent = newDate;
     var img = document.createElement("img");
     img.src = icon;
     img.alt = "Weather Icon";
-    //Create elemenets and append depending on where we want them
 
-    // var ul = document.createElement("ul");
-    // var tempList = document.createElement("li");
-    // var windList = document.createElement("li");
-    // var humidityList = document.createElement("li");
-    // tempList.textContent = "Temp: " + temp + " ℉";
-    // windList.textContent = "Wind: " + wind + " MPH";
-    // humidityList.textContent = "Humidity: " + humidity + " %";
+    var ul = document.createElement("ul");
+    var description = document.createElement("li");
+    var tempList = document.createElement("li");
+    var windList = document.createElement("li");
+    var humidityList = document.createElement("li");
+    description.textContent = dailyWeatherDesc;
+    tempList.textContent = "Temp: " + temp + " ℉";
+    windList.textContent = "Wind: " + wind + " MPH";
+    humidityList.textContent = "Humidity: " + humidity + " %";
 
-    // dailyDiv[i].appendChild(futureDate);
-    // dailyDiv[i].appendChild(img);
-    // dailyDiv[i].appendChild(ul);
-    // ul.appendChild(tempList);
-    // ul.appendChild(windList);
-    // ul.appendChild(humidityList);
+    div.appendChild(date);
+    div.appendChild(img);
+    div.appendChild(ul);
+    ul.appendChild(description);
+    ul.appendChild(tempList);
+    ul.appendChild(windList);
+    ul.appendChild(humidityList);
   }
+  //q = counter for how many forecast classes are made aka how many campgrounds found (5 or less)
+  q++;
+  
+  
 }
+
 function getIcons(icon) {
   var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
   return iconUrl;

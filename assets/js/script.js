@@ -1,16 +1,14 @@
 var submitBtn = document.getElementById("submitbtn");
 var mainForm = document.getElementById("mainform");
 var results = document.querySelector(".results");
+var searchHistory = document.querySelectorAll(".searchHistory");
+var searchHistoryContainer = document.querySelector("#asideStyle");
 
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
 var DateTime = luxon.DateTime;
 var dontStealThis = "AIzaSyC7BB3RT0eLCTCmv67coQEu9B7HT5YnnD4";
 var q;
-
-
-
-
-
+var savedZipCode = [];
 
 //Event listener for distance select
 document.addEventListener('DOMContentLoaded', function () {
@@ -18,22 +16,84 @@ document.addEventListener('DOMContentLoaded', function () {
   var options = "";
   var instances = M.FormSelect.init(elems, options);
 });
-//gets coordinates of inital zipcode
+
+//global variables and clicks for the modal alert
+var modal = document.getElementById("myModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+//loads saved search history
+renderLocalStorage();
+//if user clicks on a saved zipcode, it'll run the app with that zipcode + default 50 mi radius
+searchHistoryContainer.addEventListener("click", function (event) {
+  var element = event.target;
+  //if you click a saved search history btn
+  if (element.matches(".searchHistory")) {
+    //then run function to get data and render results without saving the zipcode again
+    savedHistoryLonLat(element.textContent);
+  }
+})
+//uses saved zipcode and default 50 mi radius to search without saving zipcode again
+function savedHistoryLonLat(zipCode) {
+  q = 0;
+  results.textContent = " ";
+
+  var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + zipCode + ",US&units=imperial&appid=" + APIKey;
+
+  fetch(queryURL)
+    .then(function (response) {
+      response.json().then(function (data) {
+        lonLat = data.coord.lat + "," + data.coord.lon;
+        savedHistoryGoogleFunction(lonLat);
+      });
+    })
+}
+//just like other google search function but has default distance
+var savedHistoryGoogleFunction = function (lonLat) {
+  var defaultDistance = 80467;
+
+  let apiAddress =
+    "https://cors-anywhere.herokuapp.com/" + "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
+    lonLat +
+    "&radius=" +
+    defaultDistance +
+    "&type=campground&keyword=cruise&key=" +
+    dontStealThis;
+
+  fetch(apiAddress)
+    .then(function (response) {
+      response.json()
+        .then(function (data) {
+          console.log(data);
+          campgroundResults(data);
+        }) 
+    })
+}
+
+//gets coordinates of initial zipcode input
 function getLonLat(event) {
   event.preventDefault();
   q = 0;
   results.textContent = " ";
-  var zipCode = document.querySelector(".validate");
+  var locationInput = document.getElementById("location");
+  var locationInput = locationInput.value;
   var distanceBtn = document.querySelector("#distance");
   var opt = distanceBtn.options[distanceBtn.selectedIndex];
-  console.log(zipCode.value);
-  if (opt.value === "" || zipCode.value === "") {
+  if (opt.value === "" || locationInput === "") {
     modal.style.display = "block";
     return
   }
-  var locationInput = document.getElementById("location");
-  var locationInput = locationInput.value;
-  // saveSearches(locationInput);
+  //passes input zipcode to local storage
+  addLocalStorage(locationInput);
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + locationInput + ",US&units=imperial&appid=" + APIKey;
 
   fetch(queryURL)
@@ -42,10 +102,12 @@ function getLonLat(event) {
         console.log(data);
         lonLat = data.coord.lat + "," + data.coord.lon;
         searchFunction(lonLat);
+
       });
     })
 }
-//searches campgrounds within distance radius of zipcode
+
+//searches campgrounds within selected distance radius of input zipcode
 var searchFunction = function (lonLat) {
   var distanceInput = document.getElementById("distance");
   var distanceInput = distanceInput.value;
@@ -62,18 +124,35 @@ var searchFunction = function (lonLat) {
     .then(function (response) {
       response.json()
         .then(function (data) {
-          console.log(data);
           campgroundResults(data);
         })
     })
 }
+function addLocalStorage(zipCode) {
+  //adds new zipcode to the array of saved searches
+  savedZipCode.push(zipCode);
+  //keeps saved zip at a max of 3
+  if (savedZipCode.length > 3) {
+    savedZipCode.splice(0, 1);
+  }
+  //saves array of up to 3 zipcodes to local storage
+  localStorage.setItem("searchHistory", JSON.stringify(savedZipCode));
+  renderLocalStorage();
+}
+//renders buttons based on previous searches when you open the page
+function renderLocalStorage() {
+ var savedSH = localStorage.getItem("searchHistory");
+  if (savedSH) {
+    savedZipCode = JSON.parse(savedSH);
+    for (i = 0; i < savedZipCode.length; i++) {
+      searchHistory[i].textContent = savedZipCode[i];
+    }
+  }
+}
 
 function campgroundResults(data) {
-  console.log(data);
-
   //gets up to 5 results of campgrounds
   var campgrounds = data.results.slice(0, 5);
-
   for (i = 0; i < campgrounds.length; i++) {
     var div = document.createElement("div");
     div.classList.add("campground");
@@ -98,7 +177,6 @@ function campgroundResults(data) {
     campgroundDiv[i].appendChild(forecast);
     searchFiveDayWeather(coord);
   }
-
 }
 
 //fetches 7 day weather 
@@ -133,8 +211,8 @@ function renderWeather(data) {
     //parses out weather data
     var dailyWeatherDesc = data.daily[i].weather[0].description;
     var icon = getIcons(data.daily[i].weather[0].icon);
-    var temp = data.daily[i].temp.max.toFixed(2);
-    var wind = data.daily[i].wind_speed.toFixed(2);
+    var temp = Math.round(data.daily[i].temp.max);
+    var wind = Math.round(data.daily[i].wind_speed);
     var humidity = data.daily[i].humidity;
 
     var date = document.createElement("h5");
@@ -170,20 +248,5 @@ function getIcons(icon) {
   var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
   return iconUrl;
 }
-function modalAlert(event) {
-  event.preventDefault();
-}
-var modal = document.getElementById("myModal");
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  modal.style.display = "none";
-}
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+
 mainForm.addEventListener("submit", getLonLat);

@@ -28,3 +28,5 @@ https://materializecss.com/
 This project was concieved and built by David Gaither, Laeticia Ndutiye, and Ryan Radford.
 
 Instructors from the UofR fullstack bootcamp were instrumental with debugging and troubleshooting.
+
+![screenshot](assets/images/screenshot.png?raw=true)

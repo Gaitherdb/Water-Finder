@@ -75,7 +75,7 @@ var savedHistoryGoogleFunction = function (lonLat) {
         .then(function (data) {
           console.log(data);
           campgroundResults(data);
-        })
+        }) 
     })
 }
 

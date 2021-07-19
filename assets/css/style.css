@@ -12,7 +12,7 @@ header {
 }
 
 #zipcode {
-    color: white;
+    color: gold;
     font-size: large;
 }
 
@@ -24,14 +24,14 @@ header {
     
 }
 #mainform {
-    color: white;
+    color: gold;
 }
 
 #location {
-    color: white;
+    color: gold;
 }
 .select-dropdown {
-    color: white;
+    color: gold;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
@@ -40,7 +40,7 @@ header {
 }
 
 .active {
-    color : white;
+    color : gold;
 }
 
 h4.inline {
@@ -60,11 +60,11 @@ h4.inline {
 
 body {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-image: url("https://img.freepik.com/free-vector/summer-camp-with-bonfire-tent-van-backpack-chair-guitar_107791-5223.jpg?size=626&ext=jpg");
+    
 }
 .input-field {
     margin:0;
-    color: white;
+    color: gold;
 }
 .submitBtn {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -80,8 +80,10 @@ body {
 
 }
 .searchHistory {
-    margin:5% 0;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: gold;
 }
+
 #asideStyle {
     /* border: 5px solid black; */
     margin-left: 1%;

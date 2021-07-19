@@ -159,7 +159,7 @@ function campgroundResults(data) {
     var h4 = document.createElement("h4");
     h4.classList.add("inline");
     var h4Div = document.createElement("div");
-    h4Div.classList.add("inline");
+    h4Div.classList.add("sub-inline");
 
     var coord = campgrounds[i].geometry.location;
     var name = campgrounds[i].name;

@@ -11,32 +11,35 @@
 </head>
 
 <body>
+    <img src="assets/images/" class="img-thumbnail" alt="...">
+
     <header>
         <div class="col s12">
             <div class="" role="img" aria-label="">
-                <h1>Campground Finder</h1>
+                <h1>CampGround Finder</h1>
             </div>
         </div>
     </header>
 
     <div id="desc">
-        <h2>description</h2>
+        <h2>Description</h2>
+        <p></p>
     </div>
 
-    <div class="row">
+    <div id="container" class="row">
         <aside class="col s12 m7 l1" id="asideStyle">
             <h3>Search History</h3>
             <a class="waves-effect waves-light btn-large searchHistory">Button</a>
             <a class="waves-effect waves-light btn-large searchHistory">Button</a>
             <a class="waves-effect waves-light btn-large searchHistory">Button</a>
-        </aside>
+        </aside> -->
         <div class="col" id="content">
             <form id="mainform">
                 <div class="row flex">
                     <div class="col s12 noMargin">
                         <div class="input-field inline">
                             <input id="location" type="text" class="validate">
-                            <label for="location">Zip Code</label>
+                            <label for="location" id="zipcode">Zip Code</label>
                         </div>
                     </div>
 
@@ -63,9 +66,10 @@
                 </div>
             </form>
 
-            <h3>Campgrounds</h3>
-
+            <h3 id="campgrounds">CampGrounds</h3>
+            <br>
             <section class="col s12 m8 l12 results"></section>
+            <br>
         </div>
     </div>
 

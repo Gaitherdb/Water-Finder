@@ -16,6 +16,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var options = "";
   var instances = M.FormSelect.init(elems, options);
 });
+
+//global variables and clicks for the modal alert
+var modal = document.getElementById("myModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 //loads saved search history
 renderLocalStorage();
 //if user clicks on a saved zipcode, it'll run the app with that zipcode + default 50 mi radius
@@ -64,7 +79,7 @@ var savedHistoryGoogleFunction = function (lonLat) {
     })
 }
 
-//gets coordinates of inital zipcode input
+//gets coordinates of initial zipcode input
 function getLonLat(event) {
   event.preventDefault();
   q = 0;
@@ -77,7 +92,7 @@ function getLonLat(event) {
     modal.style.display = "block";
     return
   }
-  //passes searched zipcode to local storage
+  //passes input zipcode to local storage
   addLocalStorage(locationInput);
   var queryURL = "https://api.openweathermap.org/data/2.5/weather?zip=" + locationInput + ",US&units=imperial&appid=" + APIKey;
 
@@ -91,21 +106,7 @@ function getLonLat(event) {
       });
     })
 }
-//global variables and clicks for the modal alert
 
-var modal = document.getElementById("myModal");
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  modal.style.display = "none";
-}
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
 //searches campgrounds within selected distance radius of input zipcode
 var searchFunction = function (lonLat) {
   var distanceInput = document.getElementById("distance");
@@ -210,8 +211,8 @@ function renderWeather(data) {
     //parses out weather data
     var dailyWeatherDesc = data.daily[i].weather[0].description;
     var icon = getIcons(data.daily[i].weather[0].icon);
-    var temp = data.daily[i].temp.max.toFixed(2);
-    var wind = data.daily[i].wind_speed.toFixed(2);
+    var temp = Math.round(data.daily[i].temp.max);
+    var wind = Math.round(data.daily[i].wind_speed);
     var humidity = data.daily[i].humidity;
 
     var date = document.createElement("h5");

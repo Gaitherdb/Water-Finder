@@ -75,7 +75,7 @@ body {
     margin: 20px;
 }
 #content {
-    margin-left: 27%;
+    margin-left: 26%;
     margin-right: 27%;
 
 }
@@ -155,3 +155,30 @@ h3 {
     text-decoration: none;
     cursor: pointer;
   }
+
+  @media screen and (min-width: 1745px) and (max-width: 1825px) {
+    #content {
+        margin-left: 22%;
+    }
+}
+  @media screen and (min-width: 1448px) and (max-width: 1744px){
+      #content {
+          margin-left: 16%;
+      }
+  }
+
+  @media screen and (min-width: 1385px) and (max-width: 1447px){
+    #content {
+        margin-left: 14%;
+    }
+}
+@media screen and (min-width: 1331px) and (max-width: 1384px){
+    #content {
+        margin-left: 12%;
+    }
+}
+@media screen and (min-width: 1282px) and (max-width: 1330px){
+    #content {
+        margin-left: 10%;
+    }
+}

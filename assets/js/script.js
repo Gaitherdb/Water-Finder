@@ -204,6 +204,8 @@ function renderWeather(data) {
   for (i = 0; i < 6; i++) {
     var div = document.createElement("div");
     div.classList.add("dailyDiv");
+    div.classList.add("col");
+    div.classList.add("s2");
     dailyForecast[q].appendChild(div);
     //calculates date from zipcode and displays nicely for each future date
     var addDay = rezoned.plus({ days: (i - 1) + 1 })

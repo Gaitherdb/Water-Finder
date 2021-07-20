@@ -13,15 +13,16 @@
 <body>
 
     <header>
-        <div class="col s12">
-            <div class=""  aria-label="">
-                <h1>CampGround Finder</h1>
-            </div>
+        <div class="center-align">
+            <h1>CampGround Finder</h1>
         </div>
     </header>
-
+    <div class="center-align desc" id="backgroundimg">
+        <h2>Find a campground and see the forecast</h2>
+        <p id="black"> Enter your zip code and your mile radius.</p>
+    </div>
     <div id="container" class="row">
-        <aside class="col s12 m7 l1" id="asideStyle">
+        <aside class="col s12 m1 l1" id="asideStyle">
             <h3>Search History</h3>
 
             <a class="waves-effect waves-light btn-large searchHistory">23220</a>
@@ -29,48 +30,50 @@
             <a class="waves-effect waves-light btn-large searchHistory">22601</a>
         </aside>
 
-        <div class="col" id="content">
-            <form id="mainform">
-                <div class="row flex">
-                    <div class="col s12 noMargin">
-                        <div class="input-field inline">
-                            <input id="location" type="text" class="validate">
-                            <label for="location" id="zipcode">Zip Code</label>
-                        </div>
-                    </div>
+        <div class="container" id="content">
+            <form class="row" id="mainform">
 
-                    <div class="input-field col s12 noMargin">
-                        <select id="distance">
-                            <option value="" disabled selected>Distance</option>
-                            <option value="80467">50 Miles</option>
-                            <option value="160934">100 Miles</option>
-                            <option value="402336">250 Miles</option>
-                        </select>
+                <div class="col s4 push-s2 m4 push-m2 l4 push-l2 noMargin">
+                    <div class="input-field inline">
+                        <input id="location" type="text" class="validate">
+                        <label for="location" id="zipcode">Zip Code</label>
                     </div>
-                   
-                    <div id="myModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <p>Please enter zipcode and select radius.</p>
-                        </div>
-                    </div>
-
-                    <button class="btn waves-effect waves-light flex submitBtn noMargin" type="submit" name="action"
-                        id="submitbtn">Submit
-                        <i class="material-icons right">send</i>
-                    </button>
                 </div>
-            </form>
 
-            <h3 id="campgrounds">CampGrounds</h3>
+                <div class="input-field col s5 push-s1 m2 push-m1 l2 push-l1 noMargin">
+                    <select id="distance">
+                        <option value="" disabled selected>Distance</option>
+                        <option value="80467">50 Miles</option>
+                        <option value="160934">100 Miles</option>
+                        <option value="402336">250 Miles</option>
+                    </select>
+                </div>
+
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p>Please enter zip code and select radius.</p>
+                    </div>
+                </div>
+
+                <button
+                    class="btn waves-effect waves-light submitBtn noMargin col s4 pull-s1 m2 push-m1 l2 push-l1"
+                    type="submit" name="action" id="submitbtn">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+            <div class="campfireResults">
+            <img src="./assets/images/campfire-transparent-background-19.png" class="responsive-img" id="campfire" alt="Campfire">
+            <h3 class="col s8 push-s2" id="campgrounds">CampGrounds</h3>
+            </div>
+            
             <br>
-            <section class="col s12 m8 l12 results"></section>
+            <section class="col s12 m12 l12 results"></section>
             <br>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!-- <script src=“https://code.jquery.com/jquery-1.12.4.js”></script> -->
     <script src="https://moment.github.io/luxon/global/luxon.min.js"></script>
     <script src="./assets/js/script.js"></script>
 

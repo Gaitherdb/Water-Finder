@@ -8,7 +8,7 @@ CampGround finder is a small app that will help find campgrounds in a specified 
 
 To make the web app function, you must go to https://cors-anywhere.herokuapp.com/corsdemoto request temporary access. 
 
-Visit https://gaitherdb.github.io/Water-Finder/ to open the app.
+Visit [CampGround Finder](https://gaitherdb.github.io/Water-Finder/) to open the app.
 
 Type in the Zipcode you want to search and the radius, 50 miles, 100 miles, or 250 miles. The app will also save your past three searches to local storage.
 
@@ -29,4 +29,4 @@ This project was concieved and built by David Gaither, Laeticia Ndutiye, and Rya
 
 Instructors from the UofR fullstack bootcamp were instrumental with debugging and troubleshooting.
 
-![screenshot](assets/images/screenshot.png?raw=true)
+![screenshot](assets/images/CampGroundFinderSS.png)

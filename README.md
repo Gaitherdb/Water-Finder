@@ -26,6 +26,7 @@ https://materializecss.com/
 ## Contributors
 
 This project was concieved and built by David Gaither, Laeticia Ndutiye, and Ryan Radford.
+
 Contact Info: David Gaither: gaitherdb@gmail.com, Laeticia Ndutiye: 	ndutilae@gmail.com, Ryan Radford: ryanradford84@gmail.com
 
 Instructors from the UofR fullstack bootcamp were instrumental with debugging and troubleshooting.

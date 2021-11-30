@@ -1,5 +1,5 @@
 # Water-Finder
-
+*** API NOT CURRENTLY ACCESSIBLE. OUT OF ORDER.
 ## Description
 
 CampGround finder is a small app that will help find campgrounds in a specified search area by zip code. The app will return results based on a zipcode and search radius provided by the user. The app will also return the weather for all search results.
